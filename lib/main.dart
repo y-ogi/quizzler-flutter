@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'question.dart';
 
 void main() => runApp(Quizzler());
 
@@ -25,16 +26,21 @@ class QuizPage extends StatefulWidget {
 }
 
 class _QuizPageState extends State<QuizPage> {
-  List<Icon> scoreKeeper = [
-    Icon(
-      Icons.check,
-      color: Colors.green,
+  List<Icon> scoreKeeper = [];
+  List<Question> questions = [
+    Question(
+      q: 'You can lead a cow down stairs but not up stairs.',
+      a: false,
     ),
-    Icon(
-      Icons.close,
-      color: Colors.red,
-    )
+    Question(
+        q: 'Approximately one quarter of human bones are in the feet.',
+        a: true),
+    Question(
+      q: 'A slug\'s blood is green.',
+      a: true,
+    ),
   ];
+  int questionNumber = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +54,7 @@ class _QuizPageState extends State<QuizPage> {
             padding: EdgeInsets.all(10.0),
             child: Center(
               child: Text(
-                'This is where the question text will go.',
+                questions[questionNumber].questionText,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 25.0,
@@ -73,6 +79,22 @@ class _QuizPageState extends State<QuizPage> {
                 ),
               ),
               onPressed: () {
+                setState(() {
+                  if (questions[questionNumber].questionAnswer) {
+                    scoreKeeper.add(Icon(
+                      Icons.check,
+                      color: Colors.green,
+                    ));
+                  } else {
+                    scoreKeeper.add(Icon(
+                      Icons.check,
+                      color: Colors.red,
+                    ));
+                  }
+                  if (questionNumber < questions.length - 1) {
+                    questionNumber++;
+                  }
+                });
                 //The user picked true.
               },
             ),
@@ -94,6 +116,22 @@ class _QuizPageState extends State<QuizPage> {
               ),
               onPressed: () {
                 //The user picked false.
+                setState(() {
+                  if (!questions[questionNumber].questionAnswer) {
+                    scoreKeeper.add(Icon(
+                      Icons.check,
+                      color: Colors.green,
+                    ));
+                  } else {
+                    scoreKeeper.add(Icon(
+                      Icons.check,
+                      color: Colors.red,
+                    ));
+                  }
+                  if (questionNumber < questions.length - 1) {
+                    questionNumber++;
+                  }
+                });
               },
             ),
           ),
